@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>für dich 🤍</title>
+<style>
+  :root{
+    --cream:#f6efe7; --latte:#e9dccd; --coffee:#6f4e37; --espresso:#3d2b1f;
+    --rose:#cf8a93; --ink:#3a2f29; --soft:#8a786c; --card:#fffdfa;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:linear-gradient(170deg,#f8f2ea 0%,#efe3d5 55%,#e7d8c6 100%);
+    color:var(--ink);overflow:hidden;position:fixed;width:100%;
+  }
+  .stage{height:100%;width:100%;position:relative;}
+  .card{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    padding:40px 30px;opacity:0;transform:translateY(18px);
+    transition:opacity .6s ease, transform .6s ease;pointer-events:none;overflow-y:auto;
+  }
+  .card.active{opacity:1;transform:none;pointer-events:auto;}
+  h1{font-size:27px;line-height:1.3;margin:.2em 0;font-weight:800;letter-spacing:-.3px;}
+  h2{font-size:22px;line-height:1.35;margin:.2em 0;font-weight:800;color:var(--coffee);}
+  p{font-size:17px;line-height:1.62;color:var(--soft);max-width:330px;margin:.6em auto;}
+  .lead{color:var(--ink);font-weight:600;}
+  .big{font-size:46px;margin:.15em;}
+  .kicker{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--rose);font-weight:700;margin-bottom:10px;}
+  .btn{
+    margin-top:26px;background:linear-gradient(135deg,var(--coffee),var(--espresso));
+    color:#fff;border:none;padding:15px 32px;border-radius:40px;
+    font-size:16px;font-weight:700;box-shadow:0 10px 24px rgba(61,43,31,.25);
+    cursor:pointer;transition:transform .15s ease;
+  }
+  .btn:active{transform:scale(.95);}
+  .btn.ghost{background:transparent;color:var(--coffee);box-shadow:none;border:2px solid var(--latte);}
+  .note{background:var(--card);border-radius:22px;padding:22px 24px;box-shadow:0 12px 30px rgba(61,43,31,.10);max-width:340px;margin:14px auto;}
+  .progress{position:fixed;top:16px;left:0;right:0;display:flex;gap:7px;justify-content:center;z-index:50;}
+  .dot{width:7px;height:7px;border-radius:50%;background:rgba(111,78,55,.2);transition:.3s;}
+  .dot.on{background:var(--coffee);width:20px;border-radius:4px;}
+  .opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:330px;margin:14px auto;}
+  .opt{background:var(--card);border:2px solid var(--latte);border-radius:16px;padding:13px 16px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;transition:.18s;}
+  .opt:active{transform:scale(.95);}
+  .opt.sel{background:var(--coffee);color:#fff;border-color:var(--coffee);}
+  .steam{position:fixed;font-size:20px;opacity:.18;pointer-events:none;animation:rise 7s linear infinite;z-index:0;}
+  @keyframes rise{0%{transform:translateY(102vh) scale(.8);opacity:0}10%{opacity:.2}100%{transform:translateY(-10vh) scale(1.2);opacity:0}}
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<div class="stage" id="stage">
+
+  <!-- 0 -->
+  <section class="card active">
+    <div class="big">🤍</div>
+    <div class="kicker">nur kurz, ganz ehrlich</div>
+    <h1>Hey du.<br>Ich muss dir was sagen.</h1>
+    <p>Kein Spiel diesmal, keine zehn Seiten. Nur ich, der ehrlich mit dir ist.</p>
+    <button class="btn" onclick="go(1)">Okay 🤍</button>
+  </section>
+
+  <!-- 1 acknowledge -->
+  <section class="card">
+    <div class="kicker">das mit gestern</div>
+    <h2>Ich hab's übertrieben.</h2>
+    <p class="lead">Ich hab dir was gebaut das dir Dinge versprochen hat, die ich am Ende gar nicht halten konnte. Die Schokolade, das ganze Zeug das ich dir bringen wollte. Das war einfach nicht da.</p>
+    <p>Und das ist nicht fair dir gegenüber. Du freust dich auf was, und dann kommt es nicht. Das tut mir leid, ehrlich.</p>
+    <button class="btn" onclick="go(2)">Weiter 🤍</button>
+  </section>
+
+  <!-- 2 the principle -->
+  <section class="card">
+    <div class="big">🤍</div>
+    <h2>Du verdienst echte Versprechen.</h2>
+    <p class="lead">Nicht welche die gut klingen. Welche die ich wirklich halte. Du sagst immer wie wichtig dir Ehrlichkeit ist, und du hast völlig recht.</p>
+    <p>Also diesmal nur eine Sache. Klein. Aber zu 100% echt.</p>
+    <button class="btn" onclick="go(3)">Was denn? ☕</button>
+  </section>
+
+  <!-- 3 the real promise + picker -->
+  <section class="card">
+    <div class="big">☕</div>
+    <div class="kicker">die eine Sache, versprochen</div>
+    <h2>Morgen früh bring ich dir Kaffee.</h2>
+    <p class="lead">Kein Tool, kein großer Plan. Nur ich, du, und ein richtig guter Kaffee am Morgen. Den halte ich. Garantiert.</p>
+    <p style="margin-bottom:2px">Damit ich's richtig mache, sag mir nur:</p>
+    <div class="opts" id="coffeeOpts"></div>
+    <div id="coffeeConfirm"></div>
+  </section>
+
+  <!-- 4 close -->
+  <section class="card">
+    <div class="big">🤍</div>
+    <h2>Es tut mir leid, babes.</h2>
+    <p class="lead">Du bist mein Lieblingsmensch. Ich will dass du dich auf mich verlassen kannst, bei den großen Sachen und bei den kleinen wie Kaffee.</p>
+    <p style="font-weight:800;color:var(--coffee);font-size:19px">Ich liebe dich. Bis morgen früh. 🤍</p>
+    <button class="btn ghost" onclick="go(0)">Nochmal lesen</button>
+  </section>
+
+</div>
+
+<script>
+for(let i=0;i<6;i++){const s=document.createElement('div');s.className='steam';s.textContent=['☕','🤍'][i%2];s.style.left=(8+Math.random()*84)+'vw';s.style.animationDelay=(Math.random()*7)+'s';s.style.animationDuration=(6+Math.random()*4)+'s';document.body.appendChild(s);}
+
+const cards=[...document.querySelectorAll('.card')];
+const prog=document.getElementById('prog');
+cards.forEach(()=>{const d=document.createElement('div');d.className='dot';prog.appendChild(d);});
+let cur=0;
+function setProg(){[...prog.children].forEach((d,i)=>d.classList.toggle('on',i===cur));}
+function go(i){cards[cur].classList.remove('active');cur=i;cards[cur].classList.add('active');cards[cur].scrollTop=0;setProg();}
+setProg();
+
+const coffees=['Cappuccino','Flat White','Latte (Hafermilch)','Caramel Latte','Matcha','Überrasch mich 🙊'];
+const box=document.getElementById('coffeeOpts');
+coffees.forEach(c=>{const b=document.createElement('button');b.className='opt';b.textContent=c;b.onclick=()=>pick(c,b);box.appendChild(b);});
+function pick(c,btn){
+  [...box.children].forEach(x=>x.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('coffeeConfirm').innerHTML=
+    `<div class="note"><p style="margin:0;color:var(--ink);font-weight:700">Notiert: <span style="color:var(--coffee)">${c}</span>. Morgen früh, versprochen. 🤍</p></div>
+     <button class="btn" onclick="go(4)">🤍</button>`;
+}
+</script>
+</body>
+</html>
