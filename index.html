@@ -115,7 +115,7 @@ function setProg(){[...prog.children].forEach((d,i)=>d.classList.toggle('on',i==
 function go(i){cards[cur].classList.remove('active');cur=i;cards[cur].classList.add('active');cards[cur].scrollTop=0;setProg();}
 setProg();
 
-const coffees=['Cappuccino','Flat White','Latte (Hafermilch)','Caramel Latte','Matcha','Überrasch mich 🙊'];
+const coffees=['Cappuccino','Latte','Matcha','Iced Matcha'];
 const box=document.getElementById('coffeeOpts');
 coffees.forEach(c=>{const b=document.createElement('button');b.className='opt';b.textContent=c;b.onclick=()=>pick(c,b);box.appendChild(b);});
 function pick(c,btn){
